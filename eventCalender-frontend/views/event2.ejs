@@ -1,0 +1,66 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" />
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+</head>
+<body>
+  <h1>Event Calendar</h1>
+  <div id="calendar"></div>
+</body>
+<script>
+  $(document).ready(function() {
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      events: {
+        url: 'http://127.0.0.1:8000/api/events',
+        type: 'GET',
+        error: function(xhr, status, error) {
+          console.log(error);
+          alert('There was an error fetching events!');
+        }
+      },
+      selectable: true,
+      selectHelper: true,
+      select: function(start, end) {
+        var title = prompt('Event Title:');
+        var description = prompt('Event Description:');
+        var eventData = {
+          title: title,
+          description: description,
+          start: start,
+          end: end,
+          start_date: start.format('YYYY-MM-DD HH:mm:ss'),
+          end_date: end.format('YYYY-MM-DD HH:mm:ss')
+        };
+        if (title) {
+          $.ajax({
+            url: 'http://127.0.0.1:8000/api/events',
+            type: 'POST',
+            data: eventData,
+            success: function(response) {
+              alert('Event added successfully!');
+              $('#calendar').fullCalendar('refetchEvents');
+            },
+            error: function() {
+              alert('There was an error adding the event!');
+            }
+          });
+        }
+        $('#calendar').fullCalendar('unselect');
+      },
+      eventRender: function(event, element) {
+        element.find('.fc-title').append("<br/>" + event.description);
+      }
+    });
+  });
+</script> -->

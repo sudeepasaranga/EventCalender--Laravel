@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Create Event</title>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  </head>
+  <body>
+    <h1>Create Event</h1>
+    <form id="create-event-form" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required><br><br>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea><br><br>
+      <label for="start-date">Start Date:</label>
+      <input type="text" id="start-date" name="start_date" required><br><br>
+      <label for="end-date">End Date:</label>
+      <input type="text" id="end-date" name="end_date" required><br><br>
+      <input type="submit" value="Create">
+    </form>
+    <script>
+      // Initialize Flatpickr date pickers
+      flatpickr("#start-date", { enableTime: true });
+      flatpickr("#end-date", { enableTime: true });
+
+      // Add event listener to form submission
+      const form = document.querySelector("#create-event-form");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // prevent default form submission
+
+        // Get form data
+        const formData = new FormData(form);
+        const title = formData.get("title");
+        const description = formData.get("description");
+        const startDate = formData.get("start_date");
+        const endDate = formData.get("end_date");
+
+        // Send POST request to server to create new event
+        try {
+          const response = await fetch("http://localhost:3000/events", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              title: title,
+              description: description,
+              start_date: startDate,
+              end_date: endDate
+            })
+          });
+
+          // Redirect to events page after successful creation
+          if (response.ok) {
+            window.location.href = "/events";
+          } else {
+            throw new Error("Failed to create event");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Failed to create event");
+        }
+      });
+    </script>
+  </body>
+</html>
+
